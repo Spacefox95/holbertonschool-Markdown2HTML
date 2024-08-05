@@ -6,13 +6,14 @@ import sys
 import os.path
 
 if len(sys.argv) != 3 :
-	print("Usage: ./markdown2html.py README.md README.html")
+	print("Usage: ./markdown2html.py README.md README.html", file=sys.stderr)
 	exit(1)
 mdfile = sys.argv[1]
 htmlfile = sys.argv[2]
 
 if not os.path.isfile(mdfile):
-	print("Missing {}".format(mdfile))
+	print("Missing {}".format(mdfile), file=sys.stderr)
 	exit(1)
 else:
+	print('')
 	exit(0)
