@@ -5,16 +5,19 @@
 import sys
 import os.path
 
-
 if len(sys.argv) != 3 :
-	sys.stderr.write('Usage: ./markdown2html.py README.md README.html')
-	sys.exit(1)
+	print("Usage: ./markdown2html.py README.md README.html")
+	exit(1)
 mdfile = sys.argv[1]
 htmlfile = sys.argv[2]
 
 if not os.path.isfile(mdfile):
-	sys.stderr.write("Missing {}".format(mdfile))
-	sys.exit(1)
+	print("Missing {}".format(mdfile))
+	exit(1)
 else:
 	print('')
-	sys.exit(0)
+	with open(mdfile, 'r') as f:
+			content = f.read()
+			with open(htmlfile, 'w') as file:
+				file.write(content)
+	exit(0)
