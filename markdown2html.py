@@ -15,7 +15,6 @@ if not os.path.isfile(mdfile):
 	print("Missing {}".format(mdfile))
 	exit(1)
 else:
-	print('')
 	with open(mdfile, 'r') as f:
 			content = f.read()
 			with open(htmlfile, 'w') as file:
