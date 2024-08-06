@@ -45,6 +45,7 @@ def main():
 
             else:
                 if in_ul:
+                    html_content += "</ul>\n"
                     in_ul = False
                 html_content += line
         if in_ul:
