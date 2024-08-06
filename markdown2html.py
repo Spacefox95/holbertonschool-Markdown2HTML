@@ -16,12 +16,26 @@ def main():
     if not os.path.isfile(mdfile):
         sys.stderr.write("Missing {}\n".format(mdfile))
         sys.exit(1)
-    else:
-        with open(mdfile, 'r') as f:
-            content = f.read()
-            with open(htmlfile, 'w') as file:
-                file.write(content)
-        sys.exit(0)
+    try:
+        with open(mdfile, 'r') as md_content:
+            lines = md_content.readlines()
+        html_content = ''
+        for line in lines:
+            stripped_line = line.strip()
+            if stripped_line.startswith('#'):
+                h_counter = len(stripped_line.split(' ')[0])
+                if h_counter <= 6:
+                    h_text = stripped_line[h_counter:].strip()
+                    html_content += f'<h{h_counter}>{h_text}</h{h_counter}>\n'
+                else:
+                    html_content += line
+            else:
+                html_content += line
+        with open(htmlfile, 'w') as file:
+            file.write(html_content)
+    except Exception as e:
+        sys.stderr.write(f'Error: {e}')
+        sys.exit(1)
 
 
 if __name__ == "__main__":
