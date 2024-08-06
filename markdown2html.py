@@ -4,6 +4,7 @@
 
 import sys
 import os.path
+import re
 
 
 def main():
@@ -91,7 +92,8 @@ def main():
             html_content += '</ol>\n'
         if in_p:
             html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
-
+            html_content = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', html_content)
+            html_content = re.sub(r'__(.*?)__', r'<em>\1</em>', html_content)
         with open(htmlfile, 'w') as file:
             file.write(html_content)
 
