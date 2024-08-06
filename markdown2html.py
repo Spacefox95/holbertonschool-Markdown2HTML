@@ -21,6 +21,7 @@ def main():
             lines = md_content.readlines()
         html_content = ''
         in_ul = False
+        in_ol = False
 
         for line in lines:
             stripped_line = line.strip()
@@ -43,13 +44,30 @@ def main():
                 clean_list = stripped_line[2:].strip()
                 html_content += f'<li>{clean_list}</li>\n'
 
+            # Ordered List
+            elif stripped_line.startswith('*'):
+                if not in_ol:
+                    html_content += '<ol>\n'
+                    in_ol = True
+
+                order_list = stripped_line[2:].strip()
+                html_content += f'<li>{order_list}</li>\n'
+
             else:
                 if in_ul:
                     html_content += "</ul>\n"
                     in_ul = False
                 html_content += line
+
+                if in_ol:
+                    html_content += "</ol>\n"
+                    in_ol = False
+                html_content += line
+
         if in_ul:
             html_content += '</ul>\n'
+        if in_ol:
+            html_content += '</ol>\n'
 
         with open(htmlfile, 'w') as file:
             file.write(html_content)
