@@ -20,7 +20,7 @@ def main():
         with open(mdfile, 'r') as md_content:
             lines = md_content.readlines()
         html_content = ''
-        paragraph_content = []
+        paragraphe_cont = []
         in_ul = False
         in_ol = False
         in_p = False
@@ -39,8 +39,8 @@ def main():
             # Unordered List
             if stripped_line.startswith('- '):
                 if in_p:
-                    html_content += f"<p>\n{''.join(paragraph_content)}\n</p>\n"
-                    paragraph_content = []
+                    html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
+                    paragraphe_cont = []
                     in_p = False
                 if not in_ul:
                     html_content += '<ul>\n'
@@ -53,8 +53,8 @@ def main():
             # Ordered List
             if stripped_line.startswith('* '):
                 if in_p:
-                    html_content += f"<p>\n{''.join(paragraph_content)}\n</p>\n"
-                    paragraph_content = []
+                    html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
+                    paragraphe_cont = []
                     in_p = False
 
                 if not in_ol:
@@ -74,14 +74,14 @@ def main():
                     html_content += "</ol>\n"
                     in_ol = False
                 if in_p:
-                    paragraph_content.append(stripped_line + '\n')
+                    paragraphe_cont.append(stripped_line + '\n')
                 else:
-                    paragraph_content.append(stripped_line + '\n<br />\n')
+                    paragraphe_cont.append(stripped_line + '\n<br />\n')
                     in_p = True
             else:
                 if in_p:
-                    html_content += f"<p>\n{''.join(paragraph_content)}\n</p>\n"
-                    paragraph_content = []
+                    html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
+                    paragraphe_cont = []
                     in_p = False
 
         if in_ul:
@@ -89,7 +89,7 @@ def main():
         if in_ol:
             html_content += '</ol>\n'
         if in_p:
-            html_content += f"<p>\n{''.join(paragraph_content)}\n</p>\n"
+            html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
 
         with open(htmlfile, 'w') as file:
             file.write(html_content)
