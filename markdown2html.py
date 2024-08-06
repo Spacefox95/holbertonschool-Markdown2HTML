@@ -73,9 +73,11 @@ def main():
                 if in_ol:
                     html_content += "</ol>\n"
                     in_ol = False
-                paragraph_content.append(stripped_line + '\n<br />\n')
-                in_p = True
-            
+                if in_p:
+                    paragraph_content.append(stripped_line + '\n')
+                else:
+                    paragraph_content.append(stripped_line + '\n<br />\n')
+                    in_p = True
             else:
                 if in_p:
                     html_content += f"<p>\n{''.join(paragraph_content)}\n</p>\n"
