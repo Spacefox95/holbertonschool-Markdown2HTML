@@ -1,11 +1,4 @@
 # My title
-- Hello
-- Bye
-
-# My title
-* Hello
-* Bye
-# My title
 - He**l**lo
 - Bye
 
