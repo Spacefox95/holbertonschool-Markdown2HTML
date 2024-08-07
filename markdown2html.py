@@ -5,6 +5,7 @@
 import sys
 import os.path
 import re
+import hashlib
 
 
 def main():
@@ -66,6 +67,16 @@ def main():
                 html_content += f'<li>{order_list}</li>\n'
                 continue
 
+            # MD5 Conversion
+            matches = re.findall(r'\[\[(.*?)\]\]', stripped_line)
+            for m in matches:
+                md5_hash = hashlib.md5(m.encode()).hexdigest()
+                stripped_line = stripped_line.replace(f'[[{m}]]', md5_hash)
+
+            # Remove 'c' and 'C'
+            if stripped_line.startswith('(('):
+                stripped_line = re.sub(r'[(cC)]', '', stripped_line)
+
             # Paragraph
             if stripped_line:
                 if in_ul:
@@ -94,6 +105,9 @@ def main():
             html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
             html_content = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', html_content)
             html_content = re.sub(r'__(.*?)__', r'<em>\1</em>', html_content)
+            if "(" in stripped_line:
+                print('ok')
+
         with open(htmlfile, 'w') as file:
             file.write(html_content)
 
