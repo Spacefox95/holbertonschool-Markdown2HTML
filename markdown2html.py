@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 
-""" Script to translate Markdow in HTML """
+""" Script to translate Markdown to HTML """
 
 import sys
 import os.path
@@ -32,6 +32,12 @@ def main():
 
             # Heading Levels
             if stripped_line.startswith('#'):
+                if in_ul:
+                    html_content += "</ul>\n"
+                    in_ul = False
+                if in_ol:
+                    html_content += "</ol>\n"
+                    in_ol = False
                 h_counter = len(stripped_line.split(' ')[0])
                 if h_counter <= 6:
                     h_text = stripped_line[h_counter:].strip()
@@ -85,8 +91,7 @@ def main():
                     html_content += "</ol>\n"
                     in_ol = False
                 if in_p:
-                    if 1 < len(lines):
-                        paragraphe_cont.append('\n<br />\n' + stripped_line)
+                    paragraphe_cont.append('\n<br />\n' + stripped_line)
                 else:
                     paragraphe_cont.append(stripped_line)
                     in_p = True
@@ -95,24 +100,17 @@ def main():
                     html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
                     paragraphe_cont = []
                     in_p = False
-                if in_ul:
-                    html_content += '</ul>\n'
-                    in_ul = False
-                if in_ol:
-                    html_content += '</o>\n'
-                    in_ol = False
 
         if in_ul:
             html_content += '</ul>\n'
-            in_ul = False
         if in_ol:
             html_content += '</ol>\n'
         if in_p:
             html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
-            html_content = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', html_content)
-            html_content = re.sub(r'__(.*?)__', r'<em>\1</em>', html_content)
-            if "(" in stripped_line:
-                print('ok')
+
+        # Bold and italic
+        html_content = re.sub(r'\*\*(.*?)\*\*', r'<b>\1</b>', html_content)
+        html_content = re.sub(r'__(.*?)__', r'<em>\1</em>', html_content)
 
         with open(htmlfile, 'w') as file:
             file.write(html_content)
