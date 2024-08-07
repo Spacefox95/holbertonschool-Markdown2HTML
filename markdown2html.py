@@ -50,6 +50,7 @@ def main():
                     html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
                     paragraphe_cont = []
                     in_p = False
+
                 if not in_ul:
                     html_content += '<ul>\n'
                     in_ul = True
@@ -67,7 +68,6 @@ def main():
                 if not in_ol:
                     html_content += '<ol>\n'
                     in_ol = True
-
                 order_list = stripped_line[2:].strip()
                 html_content += f'<li>{order_list}</li>\n'
                 continue
@@ -91,7 +91,7 @@ def main():
                     html_content += "</ol>\n"
                     in_ol = False
                 if in_p:
-                    paragraphe_cont.append('\n<br />\n' + stripped_line)
+                    paragraphe_cont.append('\n<br/>\n' + stripped_line)
                 else:
                     paragraphe_cont.append(stripped_line)
                     in_p = True
