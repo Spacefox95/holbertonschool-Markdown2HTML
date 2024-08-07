@@ -47,7 +47,6 @@ def main():
                 if not in_ul:
                     html_content += '<ul>\n'
                     in_ul = True
-
                 clean_list = stripped_line[2:].strip()
                 html_content += f'<li>{clean_list}</li>\n'
                 continue
@@ -96,9 +95,16 @@ def main():
                     html_content += f"<p>\n{''.join(paragraphe_cont)}\n</p>\n"
                     paragraphe_cont = []
                     in_p = False
+                if in_ul:
+                    html_content += '</ul>\n'
+                    in_ul = False
+                if in_ol:
+                    html_content += '</o>\n'
+                    in_ol = False
 
         if in_ul:
             html_content += '</ul>\n'
+            in_ul = False
         if in_ol:
             html_content += '</ol>\n'
         if in_p:
