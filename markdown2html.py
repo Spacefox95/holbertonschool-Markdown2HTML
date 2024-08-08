@@ -79,8 +79,9 @@ def main():
                 stripped_line = stripped_line.replace(f'[[{m}]]', md5_hash)
 
             # Remove 'c' and 'C'
-            if stripped_line.startswith('(('):
-                stripped_line = re.sub(r'[(cC)]', '', stripped_line)
+            matches = re.findall(r'\(\((.*?)\)\)', stripped_line)
+            for m in matches:
+                stripped_line = re.sub(r'[(cC)]', '', m)
 
             # Paragraph
             if stripped_line:
