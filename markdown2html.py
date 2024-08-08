@@ -8,6 +8,10 @@ import re
 import hashlib
 
 
+def remove_c(text):
+    return re.sub(r'c', '', text, flags=re.IGNORECASE)
+
+
 def main():
     if len(sys.argv) != 3:
         sys.stderr.write("Usage: ./markdown2html.py README.md README.html\n")
@@ -79,9 +83,9 @@ def main():
                 stripped_line = stripped_line.replace(f'[[{m}]]', md5_hash)
 
             # Remove 'c' and 'C'
-            matches = re.findall(r'\(\((.*?)\)\)', stripped_line)
-            for m in matches:
-                stripped_line = re.sub(r'[(cC)]', '', m)
+            c_pat = re.compile(r'\(\((.*?)\)\)')
+            stripped_line = c_pat.sub(lambda match: remove_c(match.group(1)),
+                                      stripped_line)
 
             # Paragraph
             if stripped_line:
